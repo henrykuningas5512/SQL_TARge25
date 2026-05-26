@@ -2448,3 +2448,54 @@ begin
 	print @Counter
 	set @Counter = @Counter + 1
 end
+
+
+select * from Product
+select * from ProductSales
+
+-- võrdleme subquerit ja joini jõudlust
+select Id, Name , Description
+from Product
+where Id in 
+(
+select Product.Id from ProductSales
+)
+-- 3 miljonit rida 13 sekundiga
+
+-- teeme cache puhtaks, et uut päringut ei oleks kuskile vähemällu salvestatud
+checkpoint;
+go
+dbcc DropCleanBuffers;  --puhastab päringu cache-i
+go
+dbcc FreeProcCache; --puhastab protseduuride cache-i
+go
+
+-- teha sama tabeliga, aga JOIN-iga
+select distinct Id, Name, Description
+from Product
+inner join ProductSales
+on Product.Id = ProductSales.ProductId
+--
+
+select Id, Name, Description
+from Product
+where not exists
+(
+select * from ProductSales where ProductId = Product.Id
+)
+select * from ProductSales
+--
+
+-- kasutame join-i
+-- left join ja where ProductSales.ProductSales.ProductId is null
+select Product.Id, Name, Description
+from Product
+left join ProductSales
+on Product.Id = ProductSales.ProductId
+where ProductSales.ProductId is null
+--
+
+---CURSOR
+
+--- relatsiooniliste DB-de haldusüsteemid saavad väga hästi hakkama
+--- SET-ha SETS lubab mitut paringut kombineerida üheks 
