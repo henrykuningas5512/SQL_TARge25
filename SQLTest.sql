@@ -109,10 +109,38 @@ OR D.Id IS NULL
 
 ---14. Self join
 
-Select E.Name as Employee, M.Name as Manager
+ALTER TABLE tblEmployee
+ADD ManagerId int NULL;
 
-from tblEmployee E
-left join tblEmployee M
-On E.ManagerId = M.EmployeeId...
-....
-....
+UPDATE tblEmployee SET ManagerId = NULL WHERE ID = 1;
+UPDATE tblEmployee SET ManagerId = 1 WHERE ID = 2;
+UPDATE tblEmployee SET ManagerId = 1 WHERE ID = 3;
+UPDATE tblEmployee SET ManagerId = 1 WHERE ID = 4;
+UPDATE tblEmployee SET ManagerId = 4 WHERE ID = 5;
+UPDATE tblEmployee SET ManagerId = 1 WHERE ID = 6;
+UPDATE tblEmployee SET ManagerId = 2 WHERE ID = 7;
+UPDATE tblEmployee SET ManagerId = 1 WHERE ID = 8;
+UPDATE tblEmployee SET ManagerId = 6 WHERE ID = 9;
+UPDATE tblEmployee SET ManagerId = 6 WHERE ID = 10;
+
+SELECT * FROM tblEmployee;
+
+SELECT 
+    E.Name AS Employee,
+    M.Name AS Manager
+FROM tblEmployee E
+LEFT JOIN tblEmployee M
+ON E.ManagerId = M.ID;
+
+SELECT 
+    E.Name AS Employee,
+    M.Name AS Manager
+FROM tblEmployee E
+INNER JOIN tblEmployee M
+ON E.ManagerId = M.ID;
+
+SELECT 
+    E.Name AS Employee,
+    M.Name AS Manager
+FROM tblEmployee E
+CROSS JOIN tblEmployee M;
