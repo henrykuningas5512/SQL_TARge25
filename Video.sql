@@ -55,6 +55,13 @@ FROM dbo.tblEmployee
 ORDER BY Name DESC
 ;
 
-SELECT *
+SELECT TOP 3 *
 FROM dbo.tblEmployee
-ORDER BY Name DESC
+ORDER BY ID DESC;
+
+-- Aliasing
+
+SELECT Gender, AVG(Salary) AS avg_sal
+FROM dbo.tblEmployee
+GROUP BY Gender
+;
