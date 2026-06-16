@@ -1,7 +1,7 @@
-create database TARge25_Join_paringud
+create database TARge25_Join_paringud1
 
 --db valimine
-use TARge25_Join_paringud
+use TARge25_Join_paringud1
 
 
 ---12. Join
